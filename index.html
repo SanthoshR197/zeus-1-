@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mars Rover Rescue Simulation</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="navbar-left">
+        <div class="status-dot"></div>
+        <h1 class="navbar-title">MARS ROVER RESCUE SIMULATION</h1>
+      </div>
+      
+      <div class="navbar-right">
+        <div class="mission-time-container">
+          <span class="label">MISSION TIME:</span>
+          <span id="mission-timer" class="mission-timer">00:00:00</span>
+        </div>
+        
+        <div class="status-container">
+          <span class="label">STATUS:</span>
+          <span id="connection-status" class="status-badge disconnected">DISCONNECTED</span>
+        </div>
+
+        <div class="indicators">
+          <div id="wifi-indicator" class="wifi-indicator disconnected">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          </div>
+          
+          <div id="battery-container" class="battery-container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg>
+            <span id="battery-level" class="battery-level">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard-grid">
+        <!-- Rover Dashboard -->
+        <div class="card rover-dashboard">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Rover Status
+            </h2>
+            <div class="card-description">Real-time telemetry & diagnostics</div>
+          </div>
+          <div class="card-content">
+            <div class="status-items">
+              <div class="status-item">
+                <div class="status-item-header">
+                  <div class="status-item-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg>
+                    <span>Power</span>
+                  </div>
+                  <div class="status-item-value">
+                    <span id="power-value">0%</span>
+                    <span id="power-status" class="status-label">Normal</span>
+                  </div>
+                </div>
+                <div class="progress-bar">
+                  <div id="power-indicator" class="progress-indicator"></div>
+                </div>
+              </div>
+
+              <div class="separator"></div>
+
+              <div class="status-item">
+                <div class="status-item-header">
+                  <div class="status-item-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2Z"/><path d="M12 12 2.1 10.5"/><path d="m7.5 4.5 5 2.5"/></svg>
+                    <span>Temperature</span>
+                  </div>
+                  <div class="status-item-value">
+                    <span id="temperature-value">68°F</span>
+                    <span class="status-label green">Normal</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="separator"></div>
+
+              <div class="status-item">
+                <div class="status-item-header">
+                  <div class="status-item-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                    <span>System</span>
+                  </div>
+                  <div class="status-item-value">
+                    <span>Operational</span>
+                    <span class="status-label green">Nominal</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="system-info">
+                <div class="info-row">
+                  <span class="info-label">Session ID:</span>
+                  <span id="session-id" class="info-value">Not connected</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Current mode:</span>
+                  <span id="current-mode" class="info-value">Autonomous</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Position:</span>
+                  <span id="position" class="info-value">Unknown</span>
+                </div>
+              </div>
+
+              <div id="warning-container" class="warning-container hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span id="warning-text">No warnings</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Visualization -->
+        <div class="card map-visualization">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+              Terrain Mapping
+            </h2>
+            <div class="card-description">Real-time environment visualization</div>
+          </div>
+          <div class="card-content map-container">
+            <canvas id="map-canvas"></canvas>
+            <div class="map-overlay">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/><path d="M7.29 7.57A7.12 7.12 0 0 0 12 20.94"/><path d="M12 10a2 2 0 0 0-2 2"/></svg>
+              <span>Grid: 50m</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sensor Panel -->
+        <div class="card sensor-panel">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z"/><path d="M5.13 17.8a15.52 15.52 0 0 0 13.74 0"/><path d="M15.22 10.08a4.33 4.33 0 0 0-6.44 0"/><circle cx="12" cy="15" r="1"/></svg>
+              Sensor Telemetry
+            </h2>
+            <div class="card-description">Real-time sensor data analysis</div>
+          </div>
+          <div class="card-content">
+            <div class="sensor-grid">
+              <div class="sensor-data">
+                <div class="sensor-item">
+                  <div class="sensor-header">
+                    <div class="sensor-label">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z"/><path d="M5.13 17.8a15.52 15.52 0 0 0 13.74 0"/><path d="M15.22 10.08a4.33 4.33 0 0 0-6.44 0"/><circle cx="12" cy="15" r="1"/></svg>
+                      <span>Ultrasonic Front</span>
+                    </div>
+                    <div class="sensor-value" id="ultrasonic-value">0.0 cm</div>
+                  </div>
+                  <div class="progress-bar">
+                    <div id="ultrasonic-indicator" class="progress-indicator"></div>
+                  </div>
+                </div>
+
+                <div class="sensor-item">
+                  <div class="sensor-header">
+                    <div class="sensor-label">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M12 3v2"/><path d="M12 19v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>
+                      <span>Temperature</span>
+                    </div>
+                    <div class="sensor-value" id="temperature-sensor">20.0°C</div>
+                  </div>
+                </div>
+
+                <div class="sensor-item">
+                  <div class="sensor-header">
+                    <div class="sensor-label">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                      <span>Orientation</span>
+                    </div>
+                    <div class="sensor-value" id="orientation-value">0°</div>
+                  </div>
+                </div>
+
+                <div class="sensor-item">
+                  <div class="sensor-header">
+                    <div class="sensor-label">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg>
+                      <span>Power Consumption</span>
+                    </div>
+                    <div class="sensor-value" id="power-consumption">5.4 W</div>
+                  </div>
+                </div>
+
+                <div class="sensor-item">
+                  <div class="sensor-header">
+                    <div class="sensor-label">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                      <span>CPU Load</span>
+                    </div>
+                    <div class="sensor-value" id="cpu-load">32%</div>
+                  </div>
+                  <div class="progress-bar">
+                    <div id="cpu-indicator" class="progress-indicator purple"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sensor-charts">
+                <div class="chart-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M15 7v0"/><path d="M15 11v0"/><path d="M15 15v0"/><path d="M7 7h4"/><path d="M7 11h4"/><path d="M7 15h4"/></svg>
+                  <span>Sensor History</span>
+                </div>
+                <div class="chart-container">
+                  <canvas id="sensor-chart"></canvas>
+                </div>
+
+                <div class="rfid-panel">
+                  <div class="rfid-header">RFID Scanner:</div>
+                  <div id="rfid-display" class="rfid-display">
+                    No RFID tags detected in range...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="card control-panel">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 10h.01"/><path d="M17 14h.01"/><path d="m6 12 4-2v4l-4-2z"/></svg>
+              Control Panel
+            </h2>
+            <div class="card-description">Manual override & mission controls</div>
+          </div>
+          <div class="card-content">
+            <div class="control-header">
+              <div class="auto-mode">
+                <label class="switch">
+                  <input type="checkbox" id="autonomous-switch" checked>
+                  <span class="slider"></span>
+                </label>
+                <span>Autonomous Mode</span>
+              </div>
+              <button id="start-mission" class="mission-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                Start Mission
+              </button>
+            </div>
+
+            <div class="control-pad">
+              <div class="control-row">
+                <div></div>
+                <button id="forward" class="control-button direction-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </button>
+                <div></div>
+              </div>
+              <div class="control-row">
+                <button id="left" class="control-button direction-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5-7 7 7 7"/><path d="M19 12H5"/></svg>
+                </button>
+                <button id="stop" class="control-button stop-button">STOP</button>
+                <button id="right" class="control-button direction-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 7-7 7"/><path d="M5 12h14"/></svg>
+                </button>
+              </div>
+              <div class="control-row">
+                <div></div>
+                <button id="backward" class="control-button direction-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                </button>
+                <div></div>
+              </div>
+            </div>
+
+            <div class="quick-actions">
+              <div class="actions-header">Quick Actions:</div>
+              <div class="actions-grid">
+                <button class="action-button" id="move-forward">Move Forward</button>
+                <button class="action-button" id="move-scan">Scan Area</button>
+                <button class="action-button" id="move-recharge">Find Charging</button>
+                <button class="action-button" id="move-return">Return Home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mission Log -->
+        <div class="card mission-log">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              Mission Log
+            </h2>
+            <div class="card-description">Communication & event history</div>
+          </div>
+          <div class="card-content mission-log-content">
+            <div class="log-container">
+              <div id="log-entries" class="log-entries"></div>
+            </div>
+            <div class="survivors-container">
+              <div class="survivors-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Survivors Found (<span id="survivor-count">0</span>)</span>
+              </div>
+              <div id="survivors-list" class="survivors-list">
+                <div class="no-survivors">No survivors found yet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
