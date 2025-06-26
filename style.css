@@ -1,5 +1,3 @@
-
-/* Base styles */
 :root {
     --background: #0f172a;
     --card-bg: rgba(30, 41, 59, 0.6);
@@ -34,7 +32,6 @@
     min-height: 100vh;
   }
   
-  /* Navbar */
   .navbar {
     background-color: #020617;
     border-bottom: 1px solid var(--border-color);
@@ -138,7 +135,6 @@
     margin-left: 0.25rem;
   }
   
-  /* Main Content */
   .main-content {
     flex-grow: 1;
     padding: 1rem;
@@ -183,7 +179,6 @@
     }
   }
   
-  /* Cards */
   .card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -219,7 +214,6 @@
     padding: 1rem;
   }
   
-  /* Rover Dashboard */
   .status-items {
     display: flex;
     flex-direction: column;
@@ -345,7 +339,6 @@
     display: none;
   }
   
-  /* Map Visualization */
   .map-container {
     position: relative;
     height: 300px;
@@ -381,7 +374,6 @@
     color: var(--blue-primary);
   }
   
-  /* Sensor Panel */
   .sensor-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -466,7 +458,6 @@
     overflow: auto;
   }
   
-  /* Control Panel */
   .control-header {
     display: flex;
     justify-content: space-between;
@@ -626,7 +617,6 @@
     background-color: #334155;
   }
   
-  /* Mission Log */
   .mission-log-content {
     display: flex;
     flex-direction: column;
@@ -769,9 +759,4 @@
     font-size: 0.75rem;
     color: var(--text-muted);
     font-style: italic;
-  }
-  
-  /* Hidden class */
-  .hidden {
-    display: none;
   }
